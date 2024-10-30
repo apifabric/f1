@@ -1,0 +1,384 @@
+about:
+  date: October 30, 2024 13:47:41
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 14
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Car:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: team_id
+      required: true
+    - name: model
+      required: true
+    - name: engine_supplier
+    description: Table storing details of cars used by teams.
+    info_list: Table storing details of cars used by teams.
+    tab_groups:
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: Car
+    user_key: id
+  Circuit:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: location
+      required: true
+    - name: length_km
+      required: true
+    - name: id
+    description: Table storing the details of racing circuits.
+    info_list: Table storing the details of racing circuits.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - circuit_id
+      name: CircuitWeatherList
+      resource: CircuitWeather
+    - direction: tomany
+      fks:
+      - circuit_id
+      name: RaceList
+      resource: Race
+    type: Circuit
+    user_key: name
+  CircuitWeather:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: circuit_id
+      required: true
+    - name: race_day
+      required: true
+      type: DATETIME
+    - name: weather_condition
+    description: Table storing weather conditions for each circuit on race day.
+    info_list: Table storing weather conditions for each circuit on race day.
+    tab_groups:
+    - direction: toone
+      fks:
+      - circuit_id
+      name: circuit
+      resource: Circuit
+    type: CircuitWeather
+    user_key: id
+  Driver:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: team_id
+      required: true
+    - name: nationality
+    - name: id
+    description: Table storing information about Formula 1 drivers.
+    info_list: Table storing information about Formula 1 drivers.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - driver_id
+      name: LapTimeList
+      resource: LapTime
+    - direction: tomany
+      fks:
+      - driver_id
+      name: PenaltyList
+      resource: Penalty
+    - direction: tomany
+      fks:
+      - driver_id
+      name: QualificationList
+      resource: Qualification
+    - direction: tomany
+      fks:
+      - driver_id
+      name: RaceResultList
+      resource: RaceResult
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: Driver
+    user_key: name
+  LapTime:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: driver_id
+      required: true
+    - name: race_id
+      required: true
+    - name: lap_number
+      required: true
+    - name: time_seconds
+      required: true
+    description: Table storing lap times for each driver during a race.
+    info_list: Table storing lap times for each driver during a race.
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: LapTime
+    user_key: id
+  Penalty:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: driver_id
+      required: true
+    - name: race_id
+      required: true
+    - name: penalty_type
+      required: true
+    - name: penalty_seconds
+      required: true
+    description: Table storing penalties received by drivers during a race.
+    info_list: Table storing penalties received by drivers during a race.
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: Penalty
+    user_key: id
+  Qualification:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: driver_id
+      required: true
+    - name: race_id
+      required: true
+    - name: position
+      required: true
+    description: Table storing qualification session results for each race.
+    info_list: Table storing qualification session results for each race.
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: Qualification
+    user_key: id
+  Race:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: circuit_id
+      required: true
+    - name: date
+      required: true
+      type: DATETIME
+    - name: laps
+      required: true
+    - name: id
+    description: Table storing the schedule and details of each race.
+    info_list: Table storing the schedule and details of each race.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - race_id
+      name: LapTimeList
+      resource: LapTime
+    - direction: tomany
+      fks:
+      - race_id
+      name: PenaltyList
+      resource: Penalty
+    - direction: tomany
+      fks:
+      - race_id
+      name: QualificationList
+      resource: Qualification
+    - direction: tomany
+      fks:
+      - race_id
+      name: RaceResultList
+      resource: RaceResult
+    - direction: toone
+      fks:
+      - circuit_id
+      name: circuit
+      resource: Circuit
+    type: Race
+    user_key: name
+  RaceResult:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: driver_id
+      required: true
+    - name: race_id
+      required: true
+    - name: position
+      required: true
+    - name: points
+      required: true
+    description: Table storing results of each race.
+    info_list: Table storing results of each race.
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: RaceResult
+    user_key: id
+  Sponsor:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: id
+    description: Table storing information about sponsors.
+    info_list: Table storing information about sponsors.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - sponsor_id
+      name: TeamSponsorList
+      resource: TeamSponsor
+    type: Sponsor
+    user_key: name
+  Team:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: base_country
+    - name: id
+    description: Table storing information about Formula 1 teams.
+    info_list: Table storing information about Formula 1 teams.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - team_id
+      name: CarList
+      resource: Car
+    - direction: tomany
+      fks:
+      - team_id
+      name: DriverList
+      resource: Driver
+    - direction: tomany
+      fks:
+      - team_id
+      name: TeamSponsorList
+      resource: TeamSponsor
+    type: Team
+    user_key: name
+  TeamSponsor:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: sponsor_id
+      required: true
+    - name: team_id
+      required: true
+    description: Link table between Team and Sponsor, showing sponsorship relationships.
+    info_list: Link table between Team and Sponsor, showing sponsorship relationships.
+    tab_groups:
+    - direction: toone
+      fks:
+      - sponsor_id
+      name: sponsor
+      resource: Sponsor
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: TeamSponsor
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

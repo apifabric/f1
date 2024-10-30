@@ -1,0 +1,566 @@
+about:
+  date: October 30, 2024 13:47:41
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Car:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: team_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: model
+      required: true
+      template: text
+      type: VARCHAR
+    - name: engine_supplier
+      template: text
+      type: VARCHAR
+    description: Table storing details of cars used by teams.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing details of cars used by teams.
+    label: Car
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: Car
+  Circuit:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: location
+      required: true
+      template: text
+      type: VARCHAR
+    - name: length_km
+      required: true
+      template: real
+      type: FLOAT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing the details of racing circuits.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing the details of racing circuits.
+    label: Circuit
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - circuit_id
+      name: CircuitWeatherList
+      resource: CircuitWeather
+    - direction: tomany
+      fks:
+      - circuit_id
+      name: RaceList
+      resource: Race
+    type: Circuit
+  CircuitWeather:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: circuit_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: race_day
+      required: true
+      type: DATETIME
+    - name: weather_condition
+      template: text
+      type: VARCHAR
+    description: Table storing weather conditions for each circuit on race day.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing weather conditions for each circuit on race day.
+    label: CircuitWeather
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - circuit_id
+      name: circuit
+      resource: Circuit
+    type: CircuitWeather
+  Driver:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: team_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: nationality
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing information about Formula 1 drivers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing information about Formula 1 drivers.
+    label: Driver
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - driver_id
+      name: LapTimeList
+      resource: LapTime
+    - direction: tomany
+      fks:
+      - driver_id
+      name: PenaltyList
+      resource: Penalty
+    - direction: tomany
+      fks:
+      - driver_id
+      name: QualificationList
+      resource: Qualification
+    - direction: tomany
+      fks:
+      - driver_id
+      name: RaceResultList
+      resource: RaceResult
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: Driver
+  LapTime:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: driver_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: race_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: lap_number
+      required: true
+      template: integer
+      type: INTEGER
+    - name: time_seconds
+      required: true
+      template: real
+      type: FLOAT
+    description: Table storing lap times for each driver during a race.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing lap times for each driver during a race.
+    label: LapTime
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: LapTime
+  Penalty:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: driver_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: race_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: penalty_type
+      required: true
+      template: text
+      type: VARCHAR
+    - name: penalty_seconds
+      required: true
+      template: real
+      type: FLOAT
+    description: Table storing penalties received by drivers during a race.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing penalties received by drivers during a race.
+    label: Penalty
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: Penalty
+  Qualification:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: driver_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: race_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: position
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table storing qualification session results for each race.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing qualification session results for each race.
+    label: Qualification
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: Qualification
+  Race:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: circuit_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: date
+      required: true
+      type: DATETIME
+    - name: laps
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing the schedule and details of each race.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing the schedule and details of each race.
+    label: Race
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - race_id
+      name: LapTimeList
+      resource: LapTime
+    - direction: tomany
+      fks:
+      - race_id
+      name: PenaltyList
+      resource: Penalty
+    - direction: tomany
+      fks:
+      - race_id
+      name: QualificationList
+      resource: Qualification
+    - direction: tomany
+      fks:
+      - race_id
+      name: RaceResultList
+      resource: RaceResult
+    - direction: toone
+      fks:
+      - circuit_id
+      name: circuit
+      resource: Circuit
+    type: Race
+  RaceResult:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: driver_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: race_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: position
+      required: true
+      template: integer
+      type: INTEGER
+    - name: points
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table storing results of each race.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table storing results of each race.
+    label: RaceResult
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - driver_id
+      name: driver
+      resource: Driver
+    - direction: toone
+      fks:
+      - race_id
+      name: race
+      resource: Race
+    type: RaceResult
+  Sponsor:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing information about sponsors.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing information about sponsors.
+    label: Sponsor
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - sponsor_id
+      name: TeamSponsorList
+      resource: TeamSponsor
+    type: Sponsor
+  Team:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: base_country
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table storing information about Formula 1 teams.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table storing information about Formula 1 teams.
+    label: Team
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - team_id
+      name: CarList
+      resource: Car
+    - direction: tomany
+      fks:
+      - team_id
+      name: DriverList
+      resource: Driver
+    - direction: tomany
+      fks:
+      - team_id
+      name: TeamSponsorList
+      resource: TeamSponsor
+    type: Team
+  TeamSponsor:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: sponsor_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: team_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Link table between Team and Sponsor, showing sponsorship relationships.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Link table between Team and Sponsor, showing sponsorship relationships.
+    label: TeamSponsor
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - sponsor_id
+      name: sponsor
+      resource: Sponsor
+    - direction: toone
+      fks:
+      - team_id
+      name: team
+      resource: Team
+    type: TeamSponsor
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

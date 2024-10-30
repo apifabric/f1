@@ -1,0 +1,53 @@
+<o-form-layout-manager attr="RaceResult" mode="tab" title="RACERESULT">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="RaceResultTable" 
+            service="RaceResult" 
+            entity="RaceResult" 
+            title="RACERESULT"
+            keys="id"
+            columns="id;driver_id;race_id;position;points" 
+            header-actions="R;D"
+            visible-columns="id;driver_id;race_id;position;points"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="driver_id" title="driver_id">
+    <o-table-cell-renderer-service attr="driver_id" 
+        service="Driver" entity="DriverType" columns="id;name"
+        parent-keys="id:driver_id"
+        value-column="name" keys="driver_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="race_id" title="race_id">
+    <o-table-cell-renderer-service attr="race_id" 
+        service="Race" entity="RaceType" columns="id;name"
+        parent-keys="id:race_id"
+        value-column="name" keys="race_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #position attr="position" title="position" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+            
+            <o-table-column #points attr="points" title="points" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

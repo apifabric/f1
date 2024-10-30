@@ -1,0 +1,279 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Race_form_edit" 
+        service="Race" 
+        entity="Race" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-list-picker 
+        attr="circuit_id"
+        service="Circuit" 
+        entity="CircuitType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;circuit_id;name" 
+        title="circuit_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+      <o-date-input #date attr="date" type="timestamp" label="date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+      <o-integer-input #laps attr="laps" label="laps" type="integer" editable="no" required="yes" ></o-integer-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="LAPTIME-race_id">
+    <div layout-padding>
+      <o-table 
+        attr="LapTimeTable" 
+        service="LapTime" 
+        entity="LapTime" 
+        keys="id"
+        parent-keys="race_id:id"
+        columns="id;driver_id;race_id;lap_number;time_seconds"  
+        horizontal-scroll="yes"
+        detail-form-route="LapTime" 
+        edit-form-route="LapTime"
+        visible-columns="id;driver_id;race_id;lap_number;time_seconds"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="driver_id" title="driver_id">
+    <o-table-cell-renderer-service attr="driver_id" 
+        service="Driver" entity="DriverType" columns="id;name"
+        parent-keys="id:driver_id"
+        value-column="name" keys="driver_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="race_id" title="race_id">
+    <o-table-cell-renderer-service attr="race_id" 
+        service="Race" entity="RaceType" columns="id;name"
+        parent-keys="id:race_id"
+        value-column="name" keys="race_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #lap_number attr="lap_number" title="lap_number" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+          <o-table-column #time_seconds attr="time_seconds" title="time_seconds" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="PENALTY-race_id">
+    <div layout-padding>
+      <o-table 
+        attr="PenaltyTable" 
+        service="Penalty" 
+        entity="Penalty" 
+        keys="id"
+        parent-keys="race_id:id"
+        columns="id;driver_id;race_id;penalty_type;penalty_seconds"  
+        horizontal-scroll="yes"
+        detail-form-route="Penalty" 
+        edit-form-route="Penalty"
+        visible-columns="id;driver_id;race_id;penalty_type;penalty_seconds"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="driver_id" title="driver_id">
+    <o-table-cell-renderer-service attr="driver_id" 
+        service="Driver" entity="DriverType" columns="id;name"
+        parent-keys="id:driver_id"
+        value-column="name" keys="driver_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="race_id" title="race_id">
+    <o-table-cell-renderer-service attr="race_id" 
+        service="Race" entity="RaceType" columns="id;name"
+        parent-keys="id:race_id"
+        value-column="name" keys="race_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #penalty_type attr="penalty_type" title="penalty_type" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #penalty_seconds attr="penalty_seconds" title="penalty_seconds" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="QUALIFICATION-race_id">
+    <div layout-padding>
+      <o-table 
+        attr="QualificationTable" 
+        service="Qualification" 
+        entity="Qualification" 
+        keys="id"
+        parent-keys="race_id:id"
+        columns="id;driver_id;race_id;position"  
+        horizontal-scroll="yes"
+        detail-form-route="Qualification" 
+        edit-form-route="Qualification"
+        visible-columns="id;driver_id;race_id;position"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="driver_id" title="driver_id">
+    <o-table-cell-renderer-service attr="driver_id" 
+        service="Driver" entity="DriverType" columns="id;name"
+        parent-keys="id:driver_id"
+        value-column="name" keys="driver_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="race_id" title="race_id">
+    <o-table-cell-renderer-service attr="race_id" 
+        service="Race" entity="RaceType" columns="id;name"
+        parent-keys="id:race_id"
+        value-column="name" keys="race_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #position attr="position" title="position" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="RACERESULT-race_id">
+    <div layout-padding>
+      <o-table 
+        attr="RaceResultTable" 
+        service="RaceResult" 
+        entity="RaceResult" 
+        keys="id"
+        parent-keys="race_id:id"
+        columns="id;driver_id;race_id;position;points"  
+        horizontal-scroll="yes"
+        detail-form-route="RaceResult" 
+        edit-form-route="RaceResult"
+        visible-columns="id;driver_id;race_id;position;points"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="driver_id" title="driver_id">
+    <o-table-cell-renderer-service attr="driver_id" 
+        service="Driver" entity="DriverType" columns="id;name"
+        parent-keys="id:driver_id"
+        value-column="name" keys="driver_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="race_id" title="race_id">
+    <o-table-cell-renderer-service attr="race_id" 
+        service="Race" entity="RaceType" columns="id;name"
+        parent-keys="id:race_id"
+        value-column="name" keys="race_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #position attr="position" title="position" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+          <o-table-column #points attr="points" title="points" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

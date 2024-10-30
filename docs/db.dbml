@@ -1,0 +1,122 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Car: details of cars used by teams.
+Team: information about Formula 1 teams.
+Circuit: the details of racing circuits.
+CircuitWeather: weather conditions for each circuit on race day.
+Driver: information about Formula 1 drivers.
+LapTime: lap times for each driver during a race.
+Race: the schedule and details of each race.
+Penalty: penalties received by drivers during a race.
+Qualification: qualification session results for each race.
+RaceResult: results of each race.
+Sponsor: information about sponsors.
+TeamSponsor: Link table between Team and Sponsor, showing sponsorship relationships.
+'''
+}
+
+Table Car {
+    id INTEGER [primary key]
+    team_id INTEGER 
+    model VARCHAR 
+    engine_supplier VARCHAR 
+    }
+
+Table Team {
+    id INTEGER [primary key]
+    name VARCHAR 
+    base_country VARCHAR 
+    }
+
+Table Circuit {
+    id INTEGER [primary key]
+    name VARCHAR 
+    location VARCHAR 
+    length_km FLOAT 
+    }
+
+Table CircuitWeather {
+    id INTEGER [primary key]
+    circuit_id INTEGER 
+    race_day DATETIME 
+    weather_condition VARCHAR 
+    }
+
+Table Driver {
+    id INTEGER [primary key]
+    name VARCHAR 
+    nationality VARCHAR 
+    team_id INTEGER 
+    }
+
+Table LapTime {
+    id INTEGER [primary key]
+    race_id INTEGER 
+    driver_id INTEGER 
+    lap_number INTEGER 
+    time_seconds FLOAT 
+    }
+
+Table Race {
+    id INTEGER [primary key]
+    name VARCHAR 
+    circuit_id INTEGER 
+    date DATETIME 
+    laps INTEGER 
+    }
+
+Table Penalty {
+    id INTEGER [primary key]
+    race_id INTEGER 
+    driver_id INTEGER 
+    penalty_type VARCHAR 
+    penalty_seconds FLOAT 
+    }
+
+Table Qualification {
+    id INTEGER [primary key]
+    race_id INTEGER 
+    driver_id INTEGER 
+    position INTEGER 
+    }
+
+Table RaceResult {
+    id INTEGER [primary key]
+    race_id INTEGER 
+    driver_id INTEGER 
+    position INTEGER 
+    points INTEGER 
+    }
+
+Table Sponsor {
+    id INTEGER [primary key]
+    name VARCHAR 
+    }
+
+Table TeamSponsor {
+    id INTEGER [primary key]
+    team_id INTEGER 
+    sponsor_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Car.(team_id) < Team.(id)
+    Ref: CircuitWeather.(circuit_id) < Circuit.(id)
+    Ref: Driver.(team_id) < Team.(id)
+    Ref: LapTime.(driver_id) < Driver.(id)
+    Ref: LapTime.(race_id) < Race.(id)
+    Ref: Race.(circuit_id) < Circuit.(id)
+    Ref: Penalty.(driver_id) < Driver.(id)
+    Ref: Penalty.(race_id) < Race.(id)
+    Ref: Qualification.(driver_id) < Driver.(id)
+    Ref: Qualification.(race_id) < Race.(id)
+    Ref: RaceResult.(driver_id) < Driver.(id)
+    Ref: RaceResult.(race_id) < Race.(id)
+    Ref: TeamSponsor.(sponsor_id) < Sponsor.(id)
+    Ref: TeamSponsor.(team_id) < Team.(id)

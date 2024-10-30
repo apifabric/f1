@@ -1,0 +1,181 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Team_form_edit" 
+        service="Team" 
+        entity="Team" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #base_country attr="base_country" label="base_country" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="CAR-team_id">
+    <div layout-padding>
+      <o-table 
+        attr="CarTable" 
+        service="Car" 
+        entity="Car" 
+        keys="id"
+        parent-keys="team_id:id"
+        columns="id;team_id;model;engine_supplier"  
+        horizontal-scroll="yes"
+        detail-form-route="Car" 
+        edit-form-route="Car"
+        visible-columns="id;team_id;model;engine_supplier"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="team_id" title="team_id">
+    <o-table-cell-renderer-service attr="team_id" 
+        service="Team" entity="TeamType" columns="id;name"
+        parent-keys="id:team_id"
+        value-column="name" keys="team_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #model attr="model" title="model" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #engine_supplier attr="engine_supplier" title="engine_supplier" editable="no" required="no" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="DRIVER-team_id">
+    <div layout-padding>
+      <o-table 
+        attr="DriverTable" 
+        service="Driver" 
+        entity="Driver" 
+        keys="id"
+        parent-keys="team_id:id"
+        columns="name;team_id;nationality;id"  
+        horizontal-scroll="yes"
+        detail-form-route="Driver" 
+        edit-form-route="Driver"
+        visible-columns="name;team_id;nationality;id"  
+        sort-columns="name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="team_id" title="team_id">
+    <o-table-cell-renderer-service attr="team_id" 
+        service="Team" entity="TeamType" columns="id;name"
+        parent-keys="id:team_id"
+        value-column="name" keys="team_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #nationality attr="nationality" title="nationality" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="TEAMSPONSOR-team_id">
+    <div layout-padding>
+      <o-table 
+        attr="TeamSponsorTable" 
+        service="TeamSponsor" 
+        entity="TeamSponsor" 
+        keys="id"
+        parent-keys="team_id:id"
+        columns="id;sponsor_id;team_id"  
+        horizontal-scroll="yes"
+        detail-form-route="TeamSponsor" 
+        edit-form-route="TeamSponsor"
+        visible-columns="id;sponsor_id;team_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="sponsor_id" title="sponsor_id">
+    <o-table-cell-renderer-service attr="sponsor_id" 
+        service="Sponsor" entity="SponsorType" columns="id;name"
+        parent-keys="id:sponsor_id"
+        value-column="name" keys="sponsor_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="team_id" title="team_id">
+    <o-table-cell-renderer-service attr="team_id" 
+        service="Team" entity="TeamType" columns="id;name"
+        parent-keys="id:team_id"
+        value-column="name" keys="team_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>
